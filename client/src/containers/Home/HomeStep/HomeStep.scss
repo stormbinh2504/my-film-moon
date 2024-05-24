@@ -1,0 +1,154 @@
+@import "../../../styles/common";
+
+
+.home-step {
+    background-image : url("../../../assets/images/home_step/bg_home_step.png");
+    background-size  : cover;
+    background-repeat: no-repeat;
+
+    .section-heading {
+        padding-top  : 30px;
+        margin-bottom: 50px;
+
+        .section-title {
+            margin-bottom: 0;
+            font-size    : 26px;
+            color        : $dark_color;
+
+            p {
+                margin-bottom: 15px;
+            }
+        }
+    }
+
+    .home-step-content {
+        display  : flex;
+        flex-wrap: wrap;
+
+        .home-step-item {
+            width     : 20%;
+            padding   : 0 8px;
+            text-align: center;
+            position  : relative;
+
+            .home-step-image {
+                margin         : 0 auto 25px;
+                width          : 155px;
+                height         : 155px;
+                border         : 2px solid;
+                border-radius  : 50%;
+                display        : flex;
+                align-items    : center;
+                justify-content: center;
+                box-shadow     : 1px 1px 5px #ccc;
+                position       : relative;
+
+                .home-step-number {
+                    position     : absolute;
+                    width        : 42px;
+                    height       : 42px;
+                    line-height  : 42px;
+                    text-align   : center;
+                    color        : #fff;
+                    background   : #ed1b24;
+                    border-radius: 50%;
+                    font-size    : 30px;
+                    bottom       : 0;
+                    transform    : translateY(50%);
+                }
+            }
+
+            .home-step-title {
+                background   : $bg_menu;
+                color        : #fff;
+                border-radius: 30px;
+                line-height  : 40px;
+                font-size    : 16px;
+                margin-bottom: 10px
+            }
+        }
+    }
+
+    .home-step-contact {
+        .title {
+            text-transform: uppercase;
+            font-weight   : normal;
+            margin        : 30px 0 20px;
+            font-size     : 26px;
+        }
+
+        .content {
+            margin-bottom  : 50px;
+            border-left    : 5px solid red;
+            background     : #eaeaea;
+            padding        : 20px;
+            display        : flex;
+            justify-content: space-between;
+            margin-bottom  : 30px;
+            width          : 100%;
+
+            .item {
+                background : #fff;
+                padding    : 10px 20px;
+                display    : flex;
+                align-items: center;
+                width      : calc(100% / 3 - 20px);
+                font-size  : 30px;
+
+                .icon {
+                    margin-right: 10px;
+                    color       : #ed1b24;
+                }
+
+                .text {}
+            }
+        }
+    }
+}
+
+
+
+// từ 767px trở xuống
+@include media-breakpoint-down(sm) {
+    .home-step {
+        .home-step-content {
+            .home-step-item {
+                width: 100%;
+            }
+
+        }
+
+        .home-step-contact {
+
+
+            .content {
+                display: inline-block;
+
+                .item {
+                    width        : 100%;
+                    margin-bottom: 15px;
+                }
+            }
+        }
+    }
+}
+
+
+// từ 991px trở xuống
+@include media-breakpoint-down(md) {
+
+    .home-step {
+
+        .home-step-content {
+            .home-step-item {
+                .home-step-image {
+                    width : 125px;
+                    height: 125px;
+                }
+            }
+        }
+    }
+}
+
+// từ 1199px trở xuống
+@include media-breakpoint-down(lg) {}

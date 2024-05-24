@@ -1,0 +1,62 @@
+@import "../../../styles/common";
+
+
+.home-image-banner {
+    .home-image-banner-container {
+        background-image      : url("../../../assets/images/home/home_image_banner//home_image_banner.png");
+        background-size       : cover;
+        background-repeat     : no-repeat;
+        height                : 300px;
+        position              : relative;
+        // background-position: 52% 54%;
+        // &::after {
+        //     background: hsla(0, 0%, 100%, .9);
+        //     bottom    : 0;
+        //     content   : "";
+        //     left      : 0;
+        //     position  : absolute;
+        //     right     : 0;
+        //     top       : 0;
+        //     z-index   : 1;
+        // }
+
+        .container {
+            position: relative;
+            z-index : 2;
+            height  : 100%;
+            width   : 100%;
+
+            .section-content-banner {
+                color : $white_color;
+                width : 100%;
+                height: 100%;
+
+
+                .section-content-banner-wrap {
+                    max-width: 75%;
+
+                    .wrap-title {
+                        font-size  : 36px;
+                        font-weight: 700;
+                    }
+
+                    .sub-title {
+                        font-size  : 20px;
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+@include media-breakpoint-down(sm) {}
+
+
+// từ 991px trở xuống
+@include media-breakpoint-down(md) {}

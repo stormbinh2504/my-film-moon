@@ -1,0 +1,27 @@
+@import "../../styles/common";
+
+.about {
+
+    .content {
+        margin: 20px 0px;
+
+        .block-session {
+            margin-bottom: 30px;
+
+            .title-session {
+                font-size    : 30px;
+                color        : $dark_color;
+                font-weight  : 700;
+                font-family  : 'Noto Serif', serif;
+                font-size    : 24px;
+                margin-bottom: 20px;
+            }
+
+            .body-session {
+                display       : flex;
+                flex-direction: column;
+                gap           : 10px;
+            }
+        }
+    }
+}

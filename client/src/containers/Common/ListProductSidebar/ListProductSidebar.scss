@@ -1,0 +1,59 @@
+@import "../../../styles/common";
+
+.list-product-sidebar {
+    margin-bottom: 20px;
+
+    .content {
+        .block-title {
+            font-size: 14px;
+            width    : 100%;
+
+            .title {
+                border        : 1px solid #DDD;
+                padding       : 10px;
+                border-bottom : none;
+                font-weight   : bold;
+                background    : $bg_menu;
+                text-transform: uppercase;
+                display       : inline-block;
+                margin        : 0;
+                padding       : 5px 15px;
+                color         : $white_color;
+                width         : 100%;
+            }
+        }
+
+        .list-product {
+            .item-lv1 {
+                .title-lv1 {
+                    display        : flex;
+                    justify-content: flex-start;
+                    align-items    : center;
+                    gap            : 10px;
+                    font-weight    : bold;
+                    cursor         : unset;
+
+                    &.active {
+                        cursor: pointer;
+                    }
+                }
+
+                >ul {
+                    margin-left: 15px;
+                }
+
+                .item-lv2 {
+                    padding: 4px;
+
+                    .title-lv2 {
+                        cursor: pointer;
+
+                        &:hover {
+                            font-weight: bold;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

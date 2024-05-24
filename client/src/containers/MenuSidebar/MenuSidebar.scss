@@ -1,0 +1,33 @@
+@import "../../styles/common";
+
+.ProSidebar {
+    position: fixed !important;
+    height  : 100vh !important;
+    z-index : 9999;
+
+    aside {
+        height: 100%;
+
+        .css-14wx095.ps-menu-root {
+            padding-left: 0px;
+        }
+
+        .ps-sidebar-container {
+            background-color: #fff;
+
+            .ps-menu-root {
+                .ps-menuitem-root {
+                    &.ps-active {
+                        color: red;
+                    }
+
+                    .ps-menu-button {
+                        .ps-menu-icon {
+                            font-size: 20px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

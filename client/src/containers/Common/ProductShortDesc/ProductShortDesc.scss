@@ -1,0 +1,30 @@
+@import "../../../styles/common";
+
+.product-short-desc {
+    border: 1px solid #ddd;
+    margin: 20px 0px;
+
+    .title {
+        background   : #f6f6f6;
+        border-bottom: 1px solid #ddd;
+        font-size    : 14px;
+        padding      : 5px 10px;
+        margin       : 0;
+        color        : #999;
+    }
+
+    ul {
+        padding: 10px;
+
+        li {
+            position   : relative;
+            font-size  : 15px;
+            // padding : 5px 10px;
+
+            i {
+                margin-right: 10px;
+                color       : rgb(67, 223, 67);
+            }
+        }
+    }
+}

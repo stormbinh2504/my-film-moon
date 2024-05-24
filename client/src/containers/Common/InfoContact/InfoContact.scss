@@ -1,0 +1,134 @@
+@import "../../../styles/common";
+
+
+.info-contact {
+    background   : $white;
+    margin-bottom: 20px;
+    margin-top   : 20px;
+
+    .wrap-info-contact {
+        display: flex;
+
+        .wrap-content-right {
+            width         : 100%;
+            display       : flex;
+            flex-direction: column;
+            gap           : 8px;
+
+            .title {
+                font-size  : 30px;
+                color      : $dark_color;
+                font-weight: 700;
+                font-family: 'Noto Serif', serif;
+                font-size  : 24px;
+            }
+
+            .input-info {
+                display       : flex;
+                flex-direction: column;
+                gap           : 11px;
+
+                .group-input {
+                    width        : 100%;
+                    display      : flex;
+                    width        : 100%;
+                    border       : solid 1px #e0e0e0;
+                    border-radius: $border_radius;
+
+
+                    .icon-input {
+
+                        .icon-input-content {
+                            display         : flex;
+                            align-items     : center;
+                            padding         : 10px;
+                            margin-bottom   : 0;
+                            font-size       : 1rem;
+                            font-weight     : 400;
+                            line-height     : 1.5;
+                            text-align      : center;
+                            white-space     : nowrap;
+                            background-color: $bg_menu;
+                            height          : 100%;
+                            width           : 38px;
+
+                            i {
+                                color    : $primary_color;
+                                font-size: 20px;
+                            }
+                        }
+                    }
+
+                    .form-input {
+                        width        : 100%;
+                        font-weight  : 400;
+                        font-size    : 16px;
+                        line-height  : 20px;
+                        padding      : 6px 15px;
+                        border-radius: $border_radius;
+                        outline      : none;
+                        border       : none;
+
+                        &:focus {
+                            outline   : 0;
+                            box-shadow: 0 0 0 0.2rem $primary_color;
+                        }
+                    }
+
+                    textarea.form-input {
+                        height: 114px;
+                    }
+                }
+
+                .btn-container {
+                    display: flex;
+                    gap    : 10px;
+
+                    .btn {
+                        font-weight: 700;
+                        font-size  : 15px;
+                        line-height: 20px;
+                        height     : 40px;
+
+                        &:focus {
+                            outline   : 0;
+                            box-shadow: 0 0 0 0.2rem $primary_color;
+                        }
+                    }
+
+                    .btn-send {
+                        background: $bg_menu;
+                        color     : $primary_color;
+
+                    }
+
+                    .btn-clear {
+                        border: solid 1px #e0e0e0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// từ 991px trở xuống
+@include media-breakpoint-down(md) {
+    .info-contact {
+        .wrap-info-contact {
+            flex-direction: column;
+            gap           : 20px;
+
+            .content-left {
+                width: 100%;
+            }
+
+            .content-left {}
+
+            .content-right {
+                width: 100%;
+
+                .wrap-content-right {}
+            }
+        }
+    }
+}

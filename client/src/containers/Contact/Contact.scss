@@ -1,0 +1,26 @@
+@import "../../styles/common";
+
+.contact {
+
+    .content {
+        margin: 20px 0px;
+
+        .div-map {
+            margin-bottom: 20px;
+        }
+
+        .info-company {
+            margin-bottom: 10px;
+
+            li {
+                font-size: 17px;
+                padding  : 5px 0px;
+
+                i {
+                    color       : #2b2e91;
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
+}

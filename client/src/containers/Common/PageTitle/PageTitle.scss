@@ -1,0 +1,21 @@
+@import "../../../styles/common";
+
+.page-title {
+    position        : relative;
+    border-bottom   : 1px solid #EEE;
+    // margin-top   : 5px;
+    padding         : 10px 0;
+    background      : #f5f5f5;
+
+    .wrap-text {
+        display    : flex;
+        align-items: center;
+        gap        : 10px;
+        cursor     : pointer;
+
+        .active {
+            color : #777777;
+            cursor: auto;
+        }
+    }
+}

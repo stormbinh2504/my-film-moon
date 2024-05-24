@@ -1,0 +1,135 @@
+@import "../../../styles/common";
+
+
+.home-customer-say {
+    // background-image: url("../../../assets/images/home/home_leader.png");
+
+    .home-customer-say-content {
+
+        .slick-slider {
+
+            .slick-prev,
+            .slick-next {
+                width  : unset;
+                height : unset;
+                z-index: 100;
+                border : 3px solid transparent;
+
+                &::before {
+                    color: $primary_color_2;
+                }
+            }
+
+            .slick-prev {
+                left: 0;
+            }
+
+            .slick-next {
+                right: 0;
+            }
+
+            .slick-list {
+                .slick-track {
+                    gap    : 30px;
+                    display: flex;
+
+                    .leader-item {
+                        border           : 3px solid transparent;
+                        border-radius    : 15px;
+                        background-clip  : padding-box, border-box;
+                        background-origin: padding-box, border-box;
+
+                        .wrap-leader-item {
+                            padding      : 20px;
+                            background   : #f9f9f9;
+                            // border    : 2px solid #ececec;
+
+                            .leader-image {
+                                height  : 100%;
+                                width   : 100%;
+                                position: relative;
+
+                                img {
+                                    width        : 100px !important;
+                                    height       : 100px !important;
+                                    border-radius: 50%;
+                                    border       : 5px solid #f9f9f9;
+                                }
+                            }
+
+                            .leader-info {
+                                padding: 16px;
+
+                                .name {
+                                    line-height: 1.2em;
+                                    color      : #111827;
+                                    font-weight: 700;
+                                    font-size  : 16px;
+                                    font-family: "Open Sans", sans-serif !important;
+                                }
+
+                                .line {
+                                    border-top: 1px solid #D1D5DB;
+                                    margin    : 10px 0px;
+                                }
+
+                                .location {
+                                    font-weight: 400;
+                                    font-size  : 14px;
+                                    line-height: 24px;
+                                    font-family: "Open Sans", sans-serif !important;
+                                    line-height: 1.5em;
+                                }
+
+                                .description {
+                                    font-weight: 400;
+                                    font-size  : 16px;
+                                    line-height: 24px;
+                                    color      : #111827;
+                                    font-family: "serif", sans-serif !important;
+                                    font-style : italic !important;
+                                    font-size  : 19px !important;
+                                    order      : 2;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .slick-dots {
+                li {
+                    button {
+                        &::before {
+                            font-size: 10px;
+                        }
+                    }
+                }
+
+                .slick-active {
+                    button {
+                        &::before {
+                            color: $white;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+
+// từ 767px trở xuống
+@include media-breakpoint-down(sm) {
+    .home-leader {
+        .home-customer-say-content {
+            flex-direction: column;
+
+            .leader-item {
+                width    : 100%;
+                max-width: 100%;
+            }
+        }
+    }
+}

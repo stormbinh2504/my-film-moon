@@ -1,0 +1,98 @@
+@import "styles/common";
+
+body {
+  a {
+    color: unset;
+
+    &:hover {
+      color          : #222;
+      text-decoration: none;
+    }
+  }
+
+  ul {
+    margin-bottom: unset;
+  }
+}
+
+.main {}
+
+ul,
+ol {
+  list-style   : none;
+  margin-bottom: 0px;
+}
+
+li {}
+
+
+
+button {
+  outline      : unset;
+  border       : none;
+  padding      : 0px;
+  cursor       : pointer;
+  border-radius: 4px;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &:active {
+    filter: brightness(100%);
+  }
+
+  &:focus {
+    // outline: 1px dashed #fc0390;
+  }
+}
+
+
+.product-collections,
+.product-ke-driver-in {
+  .content {
+    .content-wrap {
+      position: relative;
+      padding : 20px 0;
+    }
+  }
+}
+
+#scrollToTop {
+  display         : block;
+  z-index         : 9999;
+  position        : fixed;
+  width           : 40px;
+  height          : 40px;
+  background-color: #333;
+  background-color: rgba(0, 0, 0, 0.3);
+  font-size       : 20px;
+  line-height     : 36px;
+  text-align      : center;
+  color           : #FFF;
+  top             : auto;
+  left            : auto;
+  right           : 10px;
+  bottom          : 50px;
+  cursor          : pointer;
+  border-radius   : 50%;
+
+  &:hover {
+    background: $red_color;
+  }
+}
+
+.btn {
+  &:focus {
+    outline   : 0;
+    box-shadow: 0 0 0 0.2rem $primary_color;
+  }
+}
+
+.container-content-logined {
+  min-height: 100vh;
+
+  .ant-layout {
+    min-height: 100vh;
+  }
+}

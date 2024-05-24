@@ -1,0 +1,64 @@
+@import "../../../styles/common";
+
+.product-desc {
+    .product-title {
+        margin-bottom: 10px;
+        color        : #444;
+        font-weight  : 600;
+        line-height  : 1.5;
+        margin       : 0 0 15px 0;
+    }
+
+    .product-status {}
+
+    .product-price {
+        color      : #ed1b24;
+        font-size  : 18px;
+        font-weight: 600;
+        margin     : 10px 0px;
+    }
+
+    .btn-wrap {
+        margin-top: 20px;
+
+        a {
+            display      : flex;
+            color        : #fff;
+            padding      : 10px;
+            border-radius: 4px;
+            font-weight  : bold;
+            width        : 100%;
+            text-align   : center;
+            font-size    : 16px;
+            position     : relative;
+
+            img {
+                height: 30px;
+            }
+
+        }
+
+        .phone {
+            background: #ed1b24;
+            gap       : 10px;
+            display   : flex;
+        }
+
+        .chat,
+        .require {
+            // width     : 50%;
+            background: #0070b5;
+        }
+
+        .chat-require {
+            margin-top: 10px;
+            display   : flex;
+            gap       : 10px;
+
+            .chat {
+                display: flex;
+                gap    : 10px;
+            }
+        }
+    }
+}

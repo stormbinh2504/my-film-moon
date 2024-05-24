@@ -1,0 +1,37 @@
+https://www.youtube.com/watch?v=KFwFDZpEzXY
+https://www.youtube.com/watch?v=WKfmhgYQlCM&list=LL&index=2&t=133s
+https://www.youtube.com/watch?v=nPV_Bpi1Gx4&list=LL&index=1&t=49s
+
+
+https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-18-04
+
+//chạy lệnh
+
+sudo mkdir -p /var/www/14.225.217.113/html
+sudo chown -R root:root /var/www/14.225.217.113/html
+sudo chmod -R 755 /var/www/14.225.217.113
+
+sudo nano /etc/nginx/sites-available/14.225.217.113
+
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /var/www/14.225.217.113/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name tantruongphat.click www.tantruongphat.click;
+
+        location / {
+                try_files $uri $uri/ /index.html$is_args$args =404 ;
+        }
+}
+
+sudo ln -s /etc/nginx/sites-available/14.225.217.113 /etc/nginx/sites-enabled/
+
+scp -r ./build/* root@cokhithvietnam:/var/www/14.225.217.113/html/
+
+sudo nginx -t
+
+sudo systemctl restart nginx
+
