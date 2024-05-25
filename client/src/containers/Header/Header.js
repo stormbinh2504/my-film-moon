@@ -8,14 +8,14 @@ import "./Header.scss"
 import logoFull from "../../assets/images/company/logo_full.png"
 import MenuSidebar from '../MenuSidebar/MenuSidebar';
 
-
 // let phone = 
 const Header = () => {
     const history = useHistory()
     const dispatch = useDispatch()
     const state = useSelector((state) => state);
-    const { auth, app } = state
-    const { menuActive } = app
+    const { auth, app, user, router } = state
+    const { userInfo, isLoggedIn } = user
+    const { listCountries, listGenres } = app
 
     const [isOpenMenu, setIsOpenMenu] = useState(false)
     const onRedirectHome = () => {
@@ -122,92 +122,53 @@ const Header = () => {
                 <div id="primary-menu" className="menu style-2 center">
                     <div className="container clearfix">
                         <ul className="nav-menu" >
-                            <li className={"nav-menu-item " + (checkActiveMenu(PATH_NAME.HOME) ? "active" : "")}>
-                                <a onClick={() => onRedirectByPathname(PATH_NAME.HOME)}>Trang chủ</a>
+                            <li className={"nav-menu-item " + (checkActiveMenu(PATH_NAME.LIST_NEW_FILM) ? "active" : "")}>
+                                <a onClick={() => onRedirectByPathname(PATH_NAME.LIST_NEW_FILM)}>Phim mới</a>
+                            </li>
+                            <li className={"nav-menu-item " + (checkActiveMenu(PATH_NAME.LIST_SINGLE_FILM) ? "active" : "")}>
+                                <a onClick={() => onRedirectByPathname(PATH_NAME.LIST_SINGLE_FILM)}>Phim lẻ</a>
+                            </li>
+                            <li className={"nav-menu-item " + (checkActiveMenu(PATH_NAME.LIST_SERIES_FILM) ? "active" : "")}>
+                                <a onClick={() => onRedirectByPathname(PATH_NAME.LIST_SERIES_FILM)}>Phim bộ</a>
+                            </li>
+                            <li className={"nav-menu-item " + (checkActiveMenu(PATH_NAME.LIST_RAP_FILM) ? "active" : "")}>
+                                <a onClick={() => onRedirectByPathname(PATH_NAME.LIST_RAP_FILM)}>Phim chiếu rạp</a>
                             </li>
                             <li className={"nav-menu-item nav-menu-submenu " + (checkActiveMenu(PATH_NAME.COLLECTIONS) ? "active" : "")} >
-                                <a onClick={() => onRedirectByPathname(PATH_NAME.COLLECTIONS)} className="nav-menu-link" >Sản phẩm</a>
+                                <a onClick={() => onRedirectByPathname(PATH_NAME.COLLECTIONS)} className="nav-menu-link" >Thể loại</a>
                                 <ul className="sub-menu" >
-                                    <li className="sub-menu-item">
-                                        <a >
-                                            <div className="sub-menu-item-text" >Kệ để hàng nặng</div>
-                                            <div className="sub-menu-item-icon">
-                                                <i className="fa fa-angle-right" aria-hidden="true"></i>
-                                            </div>
-                                        </a>
-                                        <ul className="sub-menu-lv2">
-                                            <li className="sub-menu-item-lv2"> <a onClick={() => onRedirectByPathname(PATH_NAME.KE_DRIVER_IN)}><div className="sub-menu-item-lv2-text" >Kệ Drive-in</div></a></li>
-                                            <li className="sub-menu-item-lv2"><a onClick={() => onRedirectByPathname(PATH_NAME.KE_SELECTIVE)}><div className="sub-menu-item-lv2-text">Kệ Selective</div></a></li>
-                                            <li className="sub-menu-item-lv2"><a onClick={() => onRedirectByPathname(PATH_NAME.KE_DOUBLE_DEEP)}><div className="sub-menu-item-lv2-text">Kệ Double Deep</div></a></li>
-                                            <li className="sub-menu-item-lv2"><a onClick={() => onRedirectByPathname(PATH_NAME.KE_NARROW_AISLE)}><div className="sub-menu-item-lv2-text">Kệ Narrow Aisle</div></a></li>
-                                            <li className="sub-menu-item-lv2"><a onClick={() => onRedirectByPathname(PATH_NAME.KE_PALLET_DI_DONG)}><div className="sub-menu-item-lv2-text">Kệ Pallet di động</div></a></li>
-                                            <li className="sub-menu-item-lv2"><a onClick={() => onRedirectByPathname(PATH_NAME.KE_CON_LAN_PALLET_FLOW_RACK)}><div className="sub-menu-item-lv2-text">Kệ con lăn</div></a></li>
-                                            <li className="sub-menu-item-lv2"><a onClick={() => onRedirectByPathname(PATH_NAME.KE_PUSH_BACK)}><div className="sub-menu-item-lv2-text">Kệ Push back</div></a></li>
-                                            <li className="sub-menu-item-lv2"><a onClick={() => onRedirectByPathname(PATH_NAME.KE_TAY_DO)}><div className="sub-menu-item-lv2-text">Kệ tay đỡ</div></a></li>
-                                            <li className="sub-menu-item-lv2"><a onClick={() => onRedirectByPathname(PATH_NAME.KE_DE_KHUON_MOULD_RACK)}><div className="sub-menu-item-lv2-text">Kệ để khuôn</div></a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li className="sub-menu-item">
-                                        <a >
-                                            <div className="sub-menu-item-text" >Kệ để hàng trung tải</div>
-                                            <div className="sub-menu-item-icon">
-                                                <i className="fa fa-angle-right" aria-hidden="true"></i>
-                                            </div>
-                                        </a>
-                                        <ul className="sub-menu-lv2" >
-                                            <li className="sub-menu-item-lv2"><a onClick={() => onRedirectByPathname(PATH_NAME.KE_TRUNG_TAI)}><div className="sub-menu-item-lv2-text" >Kệ trung tải</div></a></li>
-
-                                            <li className="sub-menu-item-lv2"><a onClick={() => onRedirectByPathname(PATH_NAME.KE_CON_LAN_TRUNG_TAI)}><div className="sub-menu-item-lv2-text" >Kệ con lăn trung tải</div></a></li>
-
-                                        </ul>
-                                    </li>
-
-                                    <li className="sub-menu-item">
-                                        <a >
-                                            <div className="sub-menu-item-text" >Kệ để hàng nhẹ </div>
-                                            <div className="sub-menu-item-icon">
-                                                <i className="fa fa-angle-right" aria-hidden="true"></i>
-                                            </div>
-                                        </a>
-                                        <ul className="sub-menu-lv2">
-                                            <li className="sub-menu-item-lv2"><a onClick={() => onRedirectByPathname(PATH_NAME.KE_V_LO)}><div className="sub-menu-item-lv2-text">Kệ V lỗ</div></a></li>
-
-                                            <li className="sub-menu-item-lv2"><a onClick={() => onRedirectByPathname(PATH_NAME.KE_V_HOA)}><div className="sub-menu-item-lv2-text">Kệ V hoa</div></a></li>
-                                        </ul>
-                                    </li>
-
-
-                                    <li className="sub-menu-item"><a onClick={() => onRedirectByPathname(PATH_NAME.KE_SAN_MEZZANINE)}><div className="sub-menu-item-text" >Kệ sàn Mezzanine</div></a></li>
-
-
-
-                                    <li className="sub-menu-item"><a onClick={() => onRedirectByPathname(PATH_NAME.KE_XEP_CHONG)}><div className="sub-menu-item-text" >Kệ xếp chồng</div></a></li>
-
-
-
-                                    <li className="sub-menu-item"><a onClick={() => onRedirectByPathname(PATH_NAME.KE_DE_HANG_BAN_TU_DONG)}><div className="sub-menu-item-text" >Kệ để hàng tự động</div></a></li>
-
-
-
-                                    <li className="sub-menu-item"><a onClick={() => onRedirectByPathname(PATH_NAME.KE_SIEU_THI)}><div className="sub-menu-item-text" >Kệ siêu thị</div></a></li>
-
-
-
-
+                                    <div className="row">
+                                        {listGenres && listGenres.length > 0 && listGenres.map((item, index) => {
+                                            return (
+                                                <div className="col-xs-12 col-sm-4">
+                                                    <li className="sub-menu-item">
+                                                        <a onClick={() => onRedirectByPathname(item.path)}>
+                                                            <div className="sub-menu-item-text" >{item.title}</div>
+                                                        </a>
+                                                    </li>
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
                                 </ul>
                             </li>
-                            <li className={"nav-menu-item " + (checkActiveMenu(PATH_NAME.PROJECT) ? "active" : "")}>
-                                <a onClick={() => onRedirectByPathname(PATH_NAME.PROJECT)}>Dự án hoàn thành</a>
-                            </li>
-                            <li className={"nav-menu-item " + (checkActiveMenu(PATH_NAME.ABOUT_OUR) ? "active" : "")}>
-                                <a onClick={() => onRedirectByPathname(PATH_NAME.ABOUT_OUR)}>Về chúng tôi</a>
-                            </li>
-                            <li className={"nav-menu-item " + (checkActiveMenu(PATH_NAME.CONTACT) ? "active" : "")}>
-                                <a onClick={() => onRedirectByPathname(PATH_NAME.CONTACT)}>Liên hệ</a>
-                            </li>
-                            <li className={"nav-menu-item  " + (checkActiveMenu(PATH_NAME.CATALOGUE) ? "active" : "")}>
-                                <a onClick={() => { openInNewTab(LINK_CATALOGUE) }}>Tải xuống Catalogue</a>
+                            <li className={"nav-menu-item nav-menu-submenu " + (checkActiveMenu(PATH_NAME.COLLECTIONS) ? "active" : "")} >
+                                <a onClick={() => onRedirectByPathname(PATH_NAME.COLLECTIONS)} className="nav-menu-link" >Quốc gia</a>
+                                <ul className="sub-menu" >
+                                    <div className="row">
+                                        {listCountries && listCountries.length > 0 && listCountries.map((item, index) => {
+                                            return (
+                                                <div className="col-xs-12 col-sm-4">
+                                                    <li className="sub-menu-item">
+                                                        <a onClick={() => onRedirectByPathname(item.path)}>
+                                                            <div className="sub-menu-item-text" >{item.title}</div>
+                                                        </a>
+                                                    </li>
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                </ul>
                             </li>
                         </ul>
                     </div>

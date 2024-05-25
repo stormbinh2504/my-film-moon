@@ -1,12 +1,12 @@
 import React from 'react'
 import OwlCarousel from 'react-owl-carousel';
 import "./Home.scss"
-import { AnimateCounterNumber } from '../../utils';
+import { AnimateCounterNumber } from '../../../../utils';
 import { useEffect } from 'react';
 import AOS from 'aos';
 
 
-const Home = () => {
+const FilterFilm = () => {
 
     useEffect(() => {
         // AOS.init({
@@ -18,10 +18,10 @@ const Home = () => {
     }, []);
 
     return (
-        <div className='home'>
+        <div className='filter-film'>
 
         </div>
     )
 }
 
-export default Home
+export default FilterFilm

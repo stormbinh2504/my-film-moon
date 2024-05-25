@@ -34,6 +34,7 @@ import { DefaultLayout } from './components/layouts';
 import Page404 from './containers/Page404/Page404';
 import Admin from './containers/Admin/Admin';
 import NotFound from './containers/Page404/NotFound';
+import { initializeApp } from './redux/actions';
 
 if (typeof window !== "undefined") {
   injectStyle();
@@ -44,6 +45,7 @@ function App() {
   const { auth, app, user, router } = state
   const { userInfo, isLoggedIn } = user
   const { location } = router
+  const dispatch = useDispatch()
 
   const scrollTopAnimated = () => {
     $('#scrollToTop').on('click', function () {
@@ -52,9 +54,10 @@ function App() {
   }
 
   useEffect(() => {
+    dispatch(initializeApp())
     scrollTopAnimated()
   }, []);
-  console.log("bh_app", user)
+  console.log("bh_app", state)
   return (
 
     <div className="App">

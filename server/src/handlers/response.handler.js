@@ -1,8 +1,11 @@
-const responseWithData = (res, statusCode, data) => res.status(statusCode).json(data);
+const responseWithData = (res, statusCode, data) => {
+  return res.status(statusCode).json(data);
+}
 
-const error = (res) => responseWithData(res, 500, {
+const error = (res, msg) => responseWithData(res, 500, {
   status: 500,
-  message: "Oops! Something worng!"
+  s: "error",
+  msg: msg || "Oops! Something worng!"
 });
 
 const badrequest = (res, message) => responseWithData(res, 400, {
@@ -10,7 +13,12 @@ const badrequest = (res, message) => responseWithData(res, 400, {
   message
 });
 
-const ok = (res, data) => responseWithData(res, 200, data);
+const ok = (res, data, msg = "") => responseWithData(res, 200, {
+  status: 200,
+  s: "ok",
+  msg,
+  d: data
+});
 
 const created = (res, data) => responseWithData(res, 201, data);
 

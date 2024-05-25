@@ -4,6 +4,7 @@ export const PATH_NAME = {
     NOT_FOUND: "/notfound",
     HOME: "/",
     LIST_NEW_FILM: "/danh-sach/phim-moi",
+    LIST_SINGLE_FILM: "/danh-sach/phim-le",
     LIST_SERIES_FILM: "/danh-sach/phim-bo",
     LIST_RAP_FILM: "/danh-sach/phim-chieu-rap",
 

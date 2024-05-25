@@ -1,6 +1,12 @@
 @import "styles/common";
 
 body {
+
+  #root {
+    background-color: #000000;
+    color           : #ffffff;
+  }
+
   a {
     color: unset;
 
