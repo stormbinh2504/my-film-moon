@@ -96,7 +96,6 @@ const addSubscriber = (callback) => {
 instance.interceptors.request.use(request => {
     const state = reduxStore.getState();
     const { data } = request
-    console.log('binh_check_request', request, state);
     // Edit request config
     // if (request.baseURL === globalVar.api.API_BASE_URL) {
     if (request && request.url) {
@@ -111,7 +110,6 @@ instance.interceptors.request.use(request => {
         if (request.method === 'post' && typeof request.data === 'string') {
             request.headers['Content-Type'] = 'application/x-www-form-urlencoded';
         }
-        console.log('binh_check_request2', request);
         return request;
     }
 }, (error) => {
@@ -128,7 +126,6 @@ instance.interceptors.response.use(
         if (data.hasOwnProperty('status') && data['status'] == 500) {
             return Promise.reject(createError(data['status'], data['status'], data['message']));
         }
-        console.log('binh_check_request3', response, data);
         return data && data.d;
     },
     async (error) => {
@@ -138,7 +135,6 @@ instance.interceptors.response.use(
         }
 
         const { data } = response;
-        console.log("binh_response", response, isTokenExpiredError(response))
         if (isTokenExpiredError(response)) {
             await dispatch(actions.logout())
         }

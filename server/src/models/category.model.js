@@ -1,12 +1,8 @@
 import mongoose from "mongoose";
 import modelOptions from "./model.options.js";
 
-const countrySchema = new mongoose.Schema({
+const categorySchema = new mongoose.Schema({
     title: {
-        type: String,
-        required: true,
-    },
-    path: {
         type: String,
         required: true,
     },
@@ -16,6 +12,6 @@ const countrySchema = new mongoose.Schema({
     },
 }, modelOptions);
 
-const countryModel = mongoose.model("Country", countrySchema);
+const categoryModel = mongoose.model("Category", categorySchema);
 
-export default countryModel;
+export default categoryModel;

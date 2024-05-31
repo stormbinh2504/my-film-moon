@@ -1,12 +1,27 @@
 import express from "express";
-import movieController from "../controllers/movie.controller.js";
+import {
+    createMovie, getAllMovies, getMovieById, updateMovieById, deleteMovieById,
+    saveCountries, getCountries, saveGenres, getGenres,
+    saveCategories,
+    getCategories,
+
+} from "../controllers/movie.controller.js";
 
 const router = express.Router({ mergeParams: true });
 
-router.post("/countries", movieController.saveCountries);
-router.get("/get-countries", movieController.getCountries);
+router.post('/create', createMovie);
+router.get('/get-movies', getAllMovies);
+router.get('/get/:id', getMovieById);
+router.put('/update/:id', updateMovieById);
+router.delete('/delete/:id', deleteMovieById);
 
-router.post("/genres", movieController.saveGenres);
-router.get("/get-genres", movieController.getGenres);
+router.post("/categories", saveCategories);
+router.get("/get-categories", getCategories);
+
+router.post("/countries", saveCountries);
+router.get("/get-countries", getCountries);
+
+router.post("/genres", saveGenres);
+router.get("/get-genres", getGenres);
 
 export default router;

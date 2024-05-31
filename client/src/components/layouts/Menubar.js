@@ -35,6 +35,22 @@ function Menubar(props) {
                         <span>Danh sách liên hệ</span>
                     </Link>
                 </Menu.Item>
+                <Menu.SubMenu key="notification" title="Phim" icon={<NotificationOutlined />} >
+                    {
+                        <Menu.Item >
+                            <Link to={PATH_NAME.ADMIN_MOVIE_CREATE}>
+                                <span>Tạo phim</span>
+                            </Link>
+                        </Menu.Item>
+                    }
+                    {
+                        <Menu.Item>
+                            <Link to={PATH_NAME.ADMIN_MOVIE_LIST}>
+                                <span>Danh sách phim</span>
+                            </Link>
+                        </Menu.Item>
+                    }
+                </Menu.SubMenu>
             </Menu>
         </Sider >
     )

@@ -13,14 +13,14 @@ import { getDatabase } from 'firebase/database';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAfkrWm5SFzeN9hAMiCdoB0tVKqRlexgvA",
-  authDomain: "cokhithvietnam-59f83.firebaseapp.com",
-  databaseURL: "https://cokhithvietnam-59f83-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "cokhithvietnam-59f83",
-  storageBucket: "cokhithvietnam-59f83.appspot.com",
-  messagingSenderId: "90828202628",
-  appId: "1:90828202628:web:8ec9cc0dd3de3b94f9d8d1",
-  measurementId: "G-NF8PEPGXYB"
+  apiKey: "AIzaSyA2wnyrAV-uowMo7SSV2bGkJcJmMZs6CUI",
+  authDomain: "my-film-moon.firebaseapp.com",
+  databaseURL: "https://my-film-moon-default-rtdb.firebaseio.com",
+  projectId: "my-film-moon",
+  storageBucket: "my-film-moon.appspot.com",
+  messagingSenderId: "443449731464",
+  appId: "1:443449731464:web:05be411bbbd58bfc46b23d",
+  measurementId: "G-EC16993HYN"
 };
 
 const uiConfig = {

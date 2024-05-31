@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { imageUpload } from '../../../utils/imageUpload'
-import { sdkVNPTService, authService, apiBinance, apiMexc } from '../../../services';
+import { sdkVNPTService, authService, apiBinance, apiMexc, movieService } from '../../../services';
 import { compressImage } from "../../../utils/imageUpload"
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useHistory } from 'react-router-dom'
@@ -10,49 +10,48 @@ import { CommonUtils, ToastUtil, onCopyText } from '../../../utils'
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import moment from 'moment'
-import "./AdminContactPage.scss"
+import "./AdminMovieList.scss"
 import { Space, Table, Tag, Divider, Radio } from 'antd';
 import axios from 'axios';
 import { firebaseMethods } from '../../../firebase/firebaseMethods';
 const { Column, ColumnGroup } = Table;
 
 
-const AdminContactPage = ({ userInfo }) => {
+const AdminMovieList = ({ userInfo }) => {
     const history = useHistory()
     const { email } = userInfo
     const dispatch = useDispatch()
     const { auth } = useSelector((state) => state);
 
-    const [listContact, setListContact] = useState([])
+    const [listMovie, setListMovie] = useState([])
     const [loading, setLoading] = useState(false);
 
     useEffect(async () => {
-        await fetchListContact();
+        await fetchListMovie();
     }, []);
 
-    const fetchListContact = async () => {
-        try {
-            const res = await firebaseMethods.getDatabaseInFirebase("listContact");
-            console.log("bh_fetchListContact", res);
-            if (res && Object.keys(res).length > 0) {
-                let arr = Object.keys(res).map(key => ({ id: key, ...res[key] })).sort((a, b) => b.ts - a.ts);;
-                setListContact(arr)
-            }
-        } catch (error) {
-            ToastUtil.errorApi(error, "Lấy thông tin liên hệ thất bại");
-        }
+    const fetchListMovie = async () => {
+        movieService.getMovies()
+            .then((data) => {
+                if (data && data.length > 0) {
+                    setListMovie(data)
+                }
+            })
+            .catch((error) => {
+                ToastUtil.errorApi(error)
+            });
     }
 
     const onHandleProcess = async (_record) => {
         let record = _.cloneDeep(_record)
         record.status = "DC"
         const updates = {};
-        updates['/listContact/' + record.id] = record;
-        // updates['/listContact/' + record.id + "/status"] = "DC"
+        updates['/listMovie/' + record.id] = record;
+        // updates['/listMovie/' + record.id + "/status"] = "DC"
         await firebaseMethods.updateDatabaseInFirebase(updates)
             .then(async res => {
                 ToastUtil.success("Chuyển trạng thái đã xử lý thành công");
-                await fetchListContact();
+                await fetchListMovie();
             })
             .catch(error => {
                 ToastUtil.errorApi(error, "Chuyển trạng thái đã xử lý thất bại");
@@ -63,12 +62,12 @@ const AdminContactPage = ({ userInfo }) => {
         let record = _.cloneDeep(_record)
         record.status = "C"
         const updates = {};
-        updates['/listContact/' + record.id] = record;
-        // updates['/listContact/' + record.id + "/status"] = "C"
+        updates['/listMovie/' + record.id] = record;
+        // updates['/listMovie/' + record.id + "/status"] = "C"
         await firebaseMethods.updateDatabaseInFirebase(updates)
             .then(async res => {
                 ToastUtil.success("Chuyển trạng thái chờ xử lý thành công");
-                await fetchListContact();
+                await fetchListMovie();
             })
             .catch(error => {
                 ToastUtil.errorApi(error, "Chuyển trạng thái chờ xử lý thất bại");
@@ -78,11 +77,11 @@ const AdminContactPage = ({ userInfo }) => {
     const onHandleRemove = async (_record) => {
         let record = _.cloneDeep(_record)
         const updates = {};
-        updates['/listContact/' + record.id] = null
+        updates['/listMovie/' + record.id] = null
         await firebaseMethods.updateDatabaseInFirebase(updates)
             .then(async res => {
                 ToastUtil.success("Chuyển trạng thái chờ xử lý thành công");
-                await fetchListContact();
+                await fetchListMovie();
             })
             .catch(error => {
                 ToastUtil.errorApi(error, "Chuyển trạng thái chờ xử lý thất bại");
@@ -100,51 +99,50 @@ const AdminContactPage = ({ userInfo }) => {
             render: (text, record, index) => (index + 1)
         },
         {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
+            title: 'Name',
+            dataIndex: 'name',
+            key: 'name',
             width: 200,
             align: 'center',
             onCell: (record) => {
                 return {
                     onClick: () => {
-                        onCopyText(record.email, "Copy email success")
+                        onCopyText(record.name, "Copy name success")
                     }
                 };
             }
         },
         {
-            title: 'Số điện thoại',
-            dataIndex: 'phone',
-            key: 'phone',
+            title: 'Ảnh',
+            dataIndex: 'avatar',
+            key: 'avatar',
             width: 100,
             align: 'center',
-            onCell: (record) => {
-                return {
-                    onClick: () => {
-                        onCopyText(record.phone, "Copy phone success")
-                    }
-                };
+            render: (_, record) => {
+                const { avatar } = record
+                return (
+                    <img src={avatar} style={{ width: "80px", height: "100px" }} />
+                )
             }
         },
         {
-            title: 'Nội dung',
-            dataIndex: 'message',
-            key: 'message',
+            title: 'Số tập',
+            dataIndex: 'totalEpisodes',
+            key: 'totalEpisodes',
             width: 100,
             align: 'center',
         },
         {
-            title: 'Ngày',
-            dataIndex: 'date',
-            key: 'date',
+            title: 'Trạng thái',
+            dataIndex: 'status',
+            key: 'status',
             width: 100,
             align: 'center',
         },
         {
-            title: 'Giờ',
-            dataIndex: 'time',
-            key: 'time',
+            title: 'Ngày tạo',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
             width: 100,
             align: 'center',
         },
@@ -155,12 +153,11 @@ const AdminContactPage = ({ userInfo }) => {
             align: 'center',
             fixed: 'right',
             render: (_, record) => {
-                console.log("bh_record", record)
                 const { status } = record
                 return (
                     <div className="container-button" >
-                        {status == "C" && <button className='btn btn-pending' onClick={() => onHandleProcess(record)}>Chờ xử lý</button>}
-                        {status != "C" && <button className='btn btn-done' onClick={() => onHandleReset(record)}>Đã xử lý</button>}
+                        <button className='btn btn-pending' onClick={() => onHandleProcess(record)}>Chờ xử lý</button>
+                        <button className='btn btn-done' onClick={() => onHandleReset(record)}>Đã xử lý</button>
                         <button className='btn btn-delete' onClick={() => onHandleRemove(record)} >Xóa</button>
                     </div >
                 )
@@ -169,9 +166,9 @@ const AdminContactPage = ({ userInfo }) => {
     ];
 
     return (
-        <div div className='admin-contact-page' >
-            <div className="admin-contact-page-container">
-                <div className="admin-contact-page-content">
+        <div div className='admin-movie-list' >
+            <div className="admin-movie-list-container">
+                <div className="admin-movie-list-content">
                     {/* <div className="container-action style-add">
                         <button className="btn btn-add" onClick={
                             () => {
@@ -180,10 +177,10 @@ const AdminContactPage = ({ userInfo }) => {
                             }
                         }>Call Data </button>
                         <button className="btn btn-add" onClick={addSymbols}>Save symbol</button>
-                        <button className="btn btn-add" onClick={fetchListContact}>Get symbol</button>
+                        <button className="btn btn-add" onClick={fetchListMovie}>Get symbol</button>
                         <button className="btn btn-add" onClick={clearAllSymbols}>Clear All symbol</button>
                     </div> */}
-                    <div className="table-admin-contact-page">
+                    <div className="table-admin-movie-list">
                         <Table
                             // rowSelection={{
                             //     type: 'checkbox',
@@ -192,12 +189,12 @@ const AdminContactPage = ({ userInfo }) => {
                             // }}
                             columns={columns}
                             loading={loading}
-                            dataSource={listContact}
+                            dataSource={listMovie}
                             scroll={{ x: 1000 }}
                             pagination={false}
                             sticky={true}
                         >
-                           
+
                         </Table>
                     </div>
                 </div>
@@ -210,4 +207,4 @@ const mapStateToProps = state => ({
     userInfo: state.user.userInfo,
 });
 
-export default connect(mapStateToProps)(AdminContactPage);
+export default connect(mapStateToProps)(AdminMovieList);

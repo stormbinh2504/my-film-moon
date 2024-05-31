@@ -3,6 +3,7 @@ import { PATH_NAME } from './../../utils';
 
 const initialState = {
     menuActive: PATH_NAME.HOME,
+    listCategories: [],
     listCountries: [],
     listGenres: [],
 }
@@ -13,6 +14,11 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 menuActive: action.data,
+            };
+        case "LOAD_DATA_CATEGORIES":
+            return {
+                ...state,
+                listCategories: action.data
             };
         case "LOAD_DATA_COUNTRIES":
             return {

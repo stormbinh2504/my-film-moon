@@ -24,6 +24,7 @@ export const initializeApp = (custodycd) => {
     return (dispatch, getState) => {
         const state = getState();
         const haveSavedSession = state.user.token != null;
+        dispatch(loadDataCategories())
         dispatch(loadDataCountries())
         dispatch(loadDataGenres())
         // Lưu lại thông tin token nếu localStorage rỗng
@@ -87,10 +88,27 @@ export const loadDataGenres = () => {
         const state = getState();
         movieService.getGenres()
             .then((res) => {
-                console.log("bh_loadDataGenres", res)
                 if (res && res.length > 0) {
                     dispatch({
                         type: "LOAD_DATA_GENRES",
+                        data: res
+                    })
+                }
+            })
+            .catch((error) => {
+                ToastUtil.errorApi(error)
+            });
+    };
+};
+
+export const loadDataCategories = () => {
+    return (dispatch, getState) => {
+        const state = getState();
+        movieService.getCategories()
+            .then((res) => {
+                if (res && res.length > 0) {
+                    dispatch({
+                        type: "LOAD_DATA_CATEGORIES",
                         data: res
                     })
                 }

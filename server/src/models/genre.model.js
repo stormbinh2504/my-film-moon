@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import modelOptions from "./model.options.js";
 
 const genreSchema = new mongoose.Schema({
     title: {
@@ -13,7 +14,7 @@ const genreSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-});
+}, modelOptions);
 
 const genreModel = mongoose.model("Genre", genreSchema);
 
