@@ -20,13 +20,19 @@ export const setMenuActive = (pathName) => {
 }
 
 
-export const initializeApp = (custodycd) => {
-    return (dispatch, getState) => {
+export const initializeApp = () => {
+    return async (dispatch, getState) => {
         const state = getState();
         const haveSavedSession = state.user.token != null;
-        dispatch(loadDataCategories())
-        dispatch(loadDataCountries())
-        dispatch(loadDataGenres())
+
+        batch(async () => {
+            await dispatch(loadDataCategories())
+            await dispatch(loadDataCountries())
+            await dispatch(loadDataGenres())
+            await dispatch({ type: 'INITIALIZATION_COMPLETE' });
+        })
+
+
         // Lưu lại thông tin token nếu localStorage rỗng
         let usersTokens = JSON.parse(localStorage.getItem('token-users'));
         if (haveSavedSession && !usersTokens) {
@@ -66,9 +72,9 @@ export const fetchUserInfoFromSavedSession = () => {
 
 
 export const loadDataCountries = () => {
-    return (dispatch, getState) => {
+    return async (dispatch, getState) => {
         const state = getState();
-        movieService.getCountries()
+        await movieService.getCountries()
             .then((res) => {
                 if (res && res.length > 0) {
                     dispatch({
@@ -84,9 +90,9 @@ export const loadDataCountries = () => {
 };
 
 export const loadDataGenres = () => {
-    return (dispatch, getState) => {
+    return async (dispatch, getState) => {
         const state = getState();
-        movieService.getGenres()
+        await movieService.getGenres()
             .then((res) => {
                 if (res && res.length > 0) {
                     dispatch({
@@ -102,9 +108,9 @@ export const loadDataGenres = () => {
 };
 
 export const loadDataCategories = () => {
-    return (dispatch, getState) => {
+    return async (dispatch, getState) => {
         const state = getState();
-        movieService.getCategories()
+        await movieService.getCategories()
             .then((res) => {
                 if (res && res.length > 0) {
                     dispatch({

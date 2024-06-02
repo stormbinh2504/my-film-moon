@@ -2,6 +2,7 @@ import { GLOBALTYPES } from '../actions/globalTypes'
 import { PATH_NAME } from './../../utils';
 
 const initialState = {
+    isInitialized: false,
     menuActive: PATH_NAME.HOME,
     listCategories: [],
     listCountries: [],
@@ -10,6 +11,11 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'INITIALIZATION_COMPLETE':
+            return {
+                ...state,
+                isInitialized: true,
+            };
         case "SET_MENU_ACTIVE":
             return {
                 ...state,

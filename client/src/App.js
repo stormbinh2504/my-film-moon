@@ -54,9 +54,14 @@ function App() {
   }
 
   useEffect(() => {
-    dispatch(initializeApp())
-    scrollTopAnimated()
-  }, []);
+    const initialize = async () => {
+      await dispatch(initializeApp());
+      scrollTopAnimated();
+    };
+
+    initialize();
+  }, [dispatch]);
+
   console.log("bh_app", state)
   return (
 
@@ -110,8 +115,8 @@ function App() {
                     />
                   ) : null;
                 })}
-                <Route exact path={PATH_NAME.NOT_FOUND} component={NotFound} />
-                <Route path='*' component={NotFound} />
+                {/* <Route exact path={PATH_NAME.NOT_FOUND} component={NotFound} /> */}
+                {/* <Route path='*' component={NotFound} /> */}
               </Switch>
             </div>}
           <ToastContainer

@@ -7,6 +7,19 @@ const REACT_APP_BASE_URL_API = globalVar.api.REACT_APP_BASE_URL_API;
 
 const movieService = {
 
+    deleteMovieById(id) {
+        return axios.delete(`${REACT_APP_BASE_URL_API}movies/delete/${id}`)
+    },
+
+    updateMovieById(body) {
+        const { id } = body
+        return axios.put(`${REACT_APP_BASE_URL_API}movies/update/${id}`, body)
+    },
+
+    getMovieById(id) {
+        return axios.get(`${REACT_APP_BASE_URL_API}movies/get/${id}`)
+    },
+
     createMovie(body) {
         return axios.post(`${REACT_APP_BASE_URL_API}movies/create`, body)
     },

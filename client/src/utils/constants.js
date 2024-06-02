@@ -10,6 +10,8 @@ export const PATH_NAME = {
 
     ADMIN_MOVIE_CREATE: "/movie/create",
     ADMIN_MOVIE_LIST: "/movie/list",
+    ADMIN_ADD_EPISODE: "/movie/add-episode",
+    ADMIN_MOVIE_EDIT: "/movie/edit",
 
 
     ABOUT_OUR: "/about",

@@ -1,0 +1,47 @@
+@import "../../../styles/common";
+
+.admin-add-episode {
+
+    .admin-add-episode-container {
+        .admin-add-episode-content {
+
+            .page-body {
+                .list-genre-select {
+                    display  : flex;
+                    flex-wrap: wrap;
+                    gap      : 10px;
+                }
+
+                .form-group-input {
+                    .label {}
+
+                    .value {
+                        .img-avatar {
+                            img {
+                                width : 250px;
+                                height: 300px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .page-footer {
+
+                .container-action {
+
+                    .btn-continue {
+                        color     : #333;
+                        background: #00deb6;
+                        border    : 0;
+                        min-width : 100px;
+
+                        &:hover {
+                            color: white;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

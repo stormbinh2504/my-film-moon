@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useHistory } from 'react-router-dom'
 import { loginStart, loginSucess, loginFail } from '../../../redux/actions/userActions'
 import { alertType } from '../../../redux/actions/alertActions'
-import { CommonUtils, ToastUtil, onCopyText } from '../../../utils'
+import { CommonUtils, PATH_NAME, ToastUtil, deleteFromFirebase, onCopyText } from '../../../utils'
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import moment from 'moment'
@@ -42,49 +42,30 @@ const AdminMovieList = ({ userInfo }) => {
             });
     }
 
-    const onHandleProcess = async (_record) => {
+    const onHandleAddEpisode = async (_record) => {
         let record = _.cloneDeep(_record)
-        record.status = "DC"
-        const updates = {};
-        updates['/listMovie/' + record.id] = record;
-        // updates['/listMovie/' + record.id + "/status"] = "DC"
-        await firebaseMethods.updateDatabaseInFirebase(updates)
-            .then(async res => {
-                ToastUtil.success("Chuyển trạng thái đã xử lý thành công");
-                await fetchListMovie();
-            })
-            .catch(error => {
-                ToastUtil.errorApi(error, "Chuyển trạng thái đã xử lý thất bại");
-            });
+        const { id } = record
+        history.push(`${PATH_NAME.ADMIN_ADD_EPISODE}/${id}`)
     }
 
-    const onHandleReset = async (_record) => {
+    const onHandleEdit = async (_record) => {
         let record = _.cloneDeep(_record)
-        record.status = "C"
-        const updates = {};
-        updates['/listMovie/' + record.id] = record;
-        // updates['/listMovie/' + record.id + "/status"] = "C"
-        await firebaseMethods.updateDatabaseInFirebase(updates)
-            .then(async res => {
-                ToastUtil.success("Chuyển trạng thái chờ xử lý thành công");
-                await fetchListMovie();
-            })
-            .catch(error => {
-                ToastUtil.errorApi(error, "Chuyển trạng thái chờ xử lý thất bại");
-            });
+        const { id } = record
+        history.push(`${PATH_NAME.ADMIN_MOVIE_EDIT}/${id}`)
     }
 
     const onHandleRemove = async (_record) => {
         let record = _.cloneDeep(_record)
-        const updates = {};
-        updates['/listMovie/' + record.id] = null
-        await firebaseMethods.updateDatabaseInFirebase(updates)
-            .then(async res => {
-                ToastUtil.success("Chuyển trạng thái chờ xử lý thành công");
+        const { id } = record
+        const imgFirebaseOld = record.avatar
+        movieService.deleteMovieById(id)
+            .then(async (data) => {
+                await deleteFromFirebase(imgFirebaseOld)
+                ToastUtil.success("Xóa phim thành công")
                 await fetchListMovie();
             })
-            .catch(error => {
-                ToastUtil.errorApi(error, "Chuyển trạng thái chờ xử lý thất bại");
+            .catch((error) => {
+                ToastUtil.errorApi(error, "Xóa phim thất bại")
             });
     }
 
@@ -110,6 +91,21 @@ const AdminMovieList = ({ userInfo }) => {
                         onCopyText(record.name, "Copy name success")
                     }
                 };
+            }
+        },
+        {
+            title: 'Tập Phim',
+            dataIndex: 'name',
+            key: 'name',
+            width: 200,
+            align: 'center',
+            render: (_, record) => {
+                const { status } = record
+                return (
+                    <div className="container-button" >
+                        <button className='btn btn-delete' onClick={() => onHandleAddEpisode(record)} >Thêm tập film</button>
+                    </div >
+                )
             }
         },
         {
@@ -156,8 +152,7 @@ const AdminMovieList = ({ userInfo }) => {
                 const { status } = record
                 return (
                     <div className="container-button" >
-                        <button className='btn btn-pending' onClick={() => onHandleProcess(record)}>Chờ xử lý</button>
-                        <button className='btn btn-done' onClick={() => onHandleReset(record)}>Đã xử lý</button>
+                        <button className='btn btn-delete' onClick={() => onHandleEdit(record)} >Sửa</button>
                         <button className='btn btn-delete' onClick={() => onHandleRemove(record)} >Xóa</button>
                     </div >
                 )

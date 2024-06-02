@@ -3,7 +3,7 @@ import { imageUpload } from '../../../utils/imageUpload'
 import { sdkVNPTService, authService, apiBinance, apiMexc, movieService } from '../../../services';
 import { compressImage } from "../../../utils/imageUpload"
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useHistory, useParams } from 'react-router-dom'
 import { loginStart, loginSucess, loginFail } from '../../../redux/actions/userActions'
 import { alertType } from '../../../redux/actions/alertActions'
 import { CommonUtils, FORM_FILM, LIST_TYPE_FILM, ToastUtil, onCopyText, uploadImgToFireBase, deleteFromFirebase } from '../../../utils'
@@ -44,25 +44,55 @@ let DF_BODY = FORM_FILM
 // "views": 0,
 // "hot": false,
 
-const AdminAddMovie = () => {
+const AdminAddMovie = ({ isEdit }) => {
     const history = useHistory()
     const dispatch = useDispatch()
     const state = useSelector((state) => state);
     const { auth, app, user, router } = state
     const { userInfo, isLoggedIn } = user
-    const { listCountries, listGenres, listCategories } = app
+    const { isInitialized, listCountries, listGenres, listCategories } = app
 
     const [formFilm, setFormFilm] = useState(DF_BODY)
+    const [formTempFilm, setFormTempFilm] = useState(DF_BODY)
     const [loading, setLoading] = useState(false);
     const [isChkCode, setIsChkCode] = useState(listGenres.map(() => false)); // Initialize state with all checkboxes unchecked
     const [chkCode, setChkCode] = useState([])
     const [imgFirebaseOld, setImgFirebaseOld] = useState("")
 
-    useEffect(async () => {
-    }, []);
+
+    const { id } = useParams();
+
+
+    useEffect(() => {
+        const initializeAndFetch = async () => {
+            if (!isInitialized) return;
+
+            if (isEdit) {
+                await fetchMovieById();
+            }
+        };
+
+        initializeAndFetch();
+    }, [isInitialized, isEdit]);
+
+
+    const fetchMovieById = async () => {
+        movieService.getMovieById(id)
+            .then((data) => {
+                setFormFilm(data)
+                setFormTempFilm(data)
+                setImgFirebaseOld(data.avatar)
+                setChkCode(data.genre)
+
+                const updatedChkCode = listGenres.map(genreItem => data.genre.includes(genreItem.value));
+                setIsChkCode(updatedChkCode);
+            })
+            .catch((error) => {
+                ToastUtil.errorApi(error)
+            });
+    }
 
     const handleChangeInput = e => {
-        console.log("bh_handleChangeInput", e.target)
         const { name, value } = e.target
         setFormFilm((prev) => ({ ...prev, [name]: value }))
 
@@ -130,20 +160,78 @@ const AdminAddMovie = () => {
         // if (!validate()) {
         //     return
         // }
-        let body = {
-            ...formFilm
-        }
 
-        dispatch(alertType(true))
-        await movieService.createMovie(body)
-            .then(res => {
-                dispatch(alertType(false))
-                ToastUtil.success("Tạo phim thành công");
-            })
-            .catch(error => {
-                dispatch(alertType(false))
-                ToastUtil.errorApi(error, "Tạo phim thất bại");
-            });
+        let _formFilm = _.cloneDeep(formFilm)
+
+        if (isEdit) {
+
+            if (Number(formTempFilm.totalEpisodes) !== Number(_formFilm.totalEpisodes)) {
+                if (formTempFilm.totalEpisodes > _formFilm.totalEpisodes) {
+                    alert(1)
+                    // Trim the episodes array
+                    _formFilm.episodes = _formFilm.episodes.slice(0, _formFilm.totalEpisodes);
+                } else {
+                    alert(2)
+
+                    let numberCount = Number(_formFilm.totalEpisodes) - Number(formTempFilm.totalEpisodes)
+
+                    if (numberCount > 0) {
+                        const additionalEpisodes = [];
+                        for (let i = 0; i < numberCount; i++) {
+                            additionalEpisodes.push({
+                                episodeNumber: Number(formTempFilm.totalEpisodes) + i + 1,
+                                episodeLink: "",
+                                episodeOrigin: "",
+                            });
+                        }
+                        _formFilm.episodes = _formFilm.episodes.concat(additionalEpisodes);
+                    }
+                }
+            }
+
+            _formFilm.genre = chkCode
+
+            let body = {
+                ..._formFilm
+            }
+
+
+            dispatch(alertType(true))
+            await movieService.updateMovieById(body)
+                .then(async res => {
+                    dispatch(alertType(false))
+                    ToastUtil.success("Cập nhật tập phim thành công");
+                    await fetchMovieById();
+                })
+                .catch(error => {
+                    dispatch(alertType(false))
+                    ToastUtil.errorApi(error, "Cập nhật tập phim thất bại");
+                });
+        } else {
+
+            _formFilm.episodes = Array.from({ length: _formFilm.totalEpisodes }, (_, index) => ({
+                episodeNumber: index + 1,
+                episodeLink: "",
+                episodeOrigin: "",
+            }));
+
+            _formFilm.genre = chkCode
+
+            let body = {
+                ..._formFilm
+            }
+
+            dispatch(alertType(true))
+            await movieService.createMovie(body)
+                .then(res => {
+                    dispatch(alertType(false))
+                    ToastUtil.success("Tạo phim thành công");
+                })
+                .catch(error => {
+                    dispatch(alertType(false))
+                    ToastUtil.errorApi(error, "Tạo phim thất bại");
+                });
+        }
     }
 
     console.log("bh_AdminAddMovie", formFilm, isChkCode, chkCode)
@@ -246,11 +334,13 @@ const AdminAddMovie = () => {
                             </div>
                             <div className="value">
                                 <textarea type="text"
-                                    rows="5"
+                                    rows="8"
+                                    cols="20"
                                     className="form-control-input"
                                     name="description"
                                     value={formFilm.description}
                                     onChange={handleChangeInput}
+                                    style={{ height: "unset" }}
                                 />
                             </div>
                         </div>
@@ -481,7 +571,8 @@ const AdminAddMovie = () => {
 
                     <div className="page-footer">
                         <div className="container-action style-add">
-                            <button class="btn btn-continue" onClick={onHandleUpdate} >Cập nhật</button>
+                            {!isEdit && <button class="btn btn-continue" onClick={onHandleUpdate} >Tạo mới</button>}
+                            {isEdit && <button class="btn btn-continue" onClick={onHandleUpdate} >Cập nhật</button>}
                         </div>
                     </div>
                 </div>
