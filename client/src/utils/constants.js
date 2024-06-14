@@ -8,6 +8,10 @@ export const PATH_NAME = {
     LIST_SERIES_FILM: "/danh-sach/phim-bo",
     LIST_RAP_FILM: "/danh-sach/phim-chieu-rap",
 
+
+    INFO_MOVIE: "/info",
+    MOVIE: "/movie",
+
     ADMIN_MOVIE_CREATE: "/movie/create",
     ADMIN_MOVIE_LIST: "/movie/list",
     ADMIN_ADD_EPISODE: "/movie/add-episode",
@@ -41,18 +45,24 @@ export const LIST_TYPE_FILM = [
     },
 ]
 
+export const LIST_TYPE_CATEGORIES = {
+    PHIMMOI: 1,
+    PHIMLE: 2,
+    PHIMBO: 3,
+    PHIMCHIEURAP: 4,
+    PHIM_TUONG_TU: 5,
+}
 
 export const FORM_FILM = {
     "name": "",
     "avatar": "",
     "totalEpisodes": 1,
-    "episodes": [],
     "duration": 0,
     "nameEnglish": "",
     "trailerTitle": "",
     "trailerLink": "",
     "description": "",
-    "tags": [],
+    "tags": "",
     "status": "",
     "quality": "",
     "subtitle": "",
@@ -62,9 +72,16 @@ export const FORM_FILM = {
     "genre": [],
     "year": "",
     "director": "",
-    "cast": [],
+    "cast": "",
     "rating": 0,
     "views": 0,
     "hot": false,
+}
+
+export const FILTER_MOVIES = {
+    "nameSearch": "",
+    "format": "",
+    "country": "",
+    "year": "",
 }
 

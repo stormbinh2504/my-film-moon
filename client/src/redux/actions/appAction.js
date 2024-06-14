@@ -124,3 +124,23 @@ export const loadDataCategories = () => {
             });
     };
 };
+
+
+export const updateDataFilterMovies = (objData) => {
+    return (dispatch, getState) => {
+        const state = getState();
+        dispatch({
+            type: "UPDATE_DATA_FILTER_MOVIES",
+            data: objData
+        })
+    };
+};
+
+export const clearDataFilterMovies = () => {
+    return (dispatch, getState) => {
+        dispatch({
+            type: "CLEAR_DATA_FILTER_MOVIES",
+        })
+    };
+};
+

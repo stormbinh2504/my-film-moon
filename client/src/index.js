@@ -6,6 +6,9 @@ import reportWebVitals from './reportWebVitals';
 import DataProvider from './redux/store'
 import { ProSidebarProvider } from 'react-pro-sidebar';
 
+import "../node_modules/slick-carousel/slick/slick.css";
+import "../node_modules/slick-carousel/slick/slick-theme.css";
+
 ReactDOM.render(
   <React.StrictMode>
     <DataProvider>

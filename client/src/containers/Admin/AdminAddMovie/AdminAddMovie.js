@@ -18,32 +18,6 @@ const { Column, ColumnGroup } = Table;
 
 let DF_BODY = FORM_FILM
 
-// "name": "",
-// "avatar": "",
-// "totalEpisodes": 1,
-// "episodes": [],
-// "duration": 0,
-// "nameEnglish": "",
-// "trailer": {
-//     "title": "",
-//     "link": "",
-// },
-// "description": "",
-// "tags": [],
-// "status": "",
-// "quality": "",
-// "subtitle": "",
-// "category": "",
-// "format": "",
-// "country": "",
-// "genre": [],
-// "year": "",
-// "director": "",
-// "cast": [],
-// "rating": 0,
-// "views": 0,
-// "hot": false,
-
 const AdminAddMovie = ({ isEdit }) => {
     const history = useHistory()
     const dispatch = useDispatch()
@@ -52,6 +26,7 @@ const AdminAddMovie = ({ isEdit }) => {
     const { userInfo, isLoggedIn } = user
     const { isInitialized, listCountries, listGenres, listCategories } = app
 
+    const [formEpisode, setFormEpisode] = useState({})
     const [formFilm, setFormFilm] = useState(DF_BODY)
     const [formTempFilm, setFormTempFilm] = useState(DF_BODY)
     const [loading, setLoading] = useState(false);
@@ -78,7 +53,7 @@ const AdminAddMovie = ({ isEdit }) => {
 
     const fetchMovieById = async () => {
         movieService.getMovieById(id)
-            .then((data) => {
+            .then(async (data) => {
                 setFormFilm(data)
                 setFormTempFilm(data)
                 setImgFirebaseOld(data.avatar)
@@ -86,6 +61,35 @@ const AdminAddMovie = ({ isEdit }) => {
 
                 const updatedChkCode = listGenres.map(genreItem => data.genre.includes(genreItem.value));
                 setIsChkCode(updatedChkCode);
+
+                const { id } = data
+                await fetchEpisodeById(id);
+
+            })
+            .catch((error) => {
+                ToastUtil.errorApi(error)
+            });
+    }
+
+    const fetchEpisodeById = async (movieId) => {
+        const { id } = formFilm
+        let idBody = movieId || id
+        if (idBody) {
+            movieService.getEpisodeByMovieId(idBody)
+                .then((data) => {
+                    ToastUtil.success("Load tập phim thành công");
+                    setFormEpisode(data)
+                })
+                .catch((error) => {
+                    ToastUtil.errorApi(error)
+                });
+        }
+    }
+
+    const createEpisodeByIdMovie = async (body) => {
+        movieService.createEpisode(body)
+            .then((data) => {
+                console.log("bh_createEpisodeByIdMovie", data)
             })
             .catch((error) => {
                 ToastUtil.errorApi(error)
@@ -109,6 +113,12 @@ const AdminAddMovie = ({ isEdit }) => {
     const changeCounty = e => {
         const value = e.target.value
         setFormFilm((prev) => ({ ...prev, ["country"]: value }))
+    }
+
+    const changeHot = e => {
+        const value = e.target.value
+        alert(value)
+        setFormFilm((prev) => ({ ...prev, ["hot"]: value }))
     }
 
     const changeGenreSelect = (value, index) => {
@@ -156,25 +166,37 @@ const AdminAddMovie = ({ isEdit }) => {
     }
 
 
+    const onHandleUpdateEpisode = async (_formEpisode) => {
+        let body = {
+            ..._formEpisode
+        }
+        dispatch(alertType(true))
+        await movieService.updateEpisodeById(body)
+            .then(async res => {
+                dispatch(alertType(false))
+                await fetchEpisodeById();
+                ToastUtil.success("Cập nhật tập phim thành công");
+            })
+            .catch(error => {
+                dispatch(alertType(false))
+                ToastUtil.errorApi(error, "Cập nhật tập phim thất bại");
+            });
+    }
+
     const onHandleUpdate = async () => {
         // if (!validate()) {
         //     return
         // }
 
         let _formFilm = _.cloneDeep(formFilm)
-
+        let _formEpisode = _.cloneDeep(formEpisode)
         if (isEdit) {
 
             if (Number(formTempFilm.totalEpisodes) !== Number(_formFilm.totalEpisodes)) {
                 if (formTempFilm.totalEpisodes > _formFilm.totalEpisodes) {
-                    alert(1)
-                    // Trim the episodes array
-                    _formFilm.episodes = _formFilm.episodes.slice(0, _formFilm.totalEpisodes);
+                    _formEpisode.episodes = _formEpisode.episodes.slice(0, _formFilm.totalEpisodes);
                 } else {
-                    alert(2)
-
                     let numberCount = Number(_formFilm.totalEpisodes) - Number(formTempFilm.totalEpisodes)
-
                     if (numberCount > 0) {
                         const additionalEpisodes = [];
                         for (let i = 0; i < numberCount; i++) {
@@ -184,32 +206,32 @@ const AdminAddMovie = ({ isEdit }) => {
                                 episodeOrigin: "",
                             });
                         }
-                        _formFilm.episodes = _formFilm.episodes.concat(additionalEpisodes);
+                        _formEpisode.episodes = _formEpisode.episodes.concat(additionalEpisodes);
                     }
                 }
             }
-
             _formFilm.genre = chkCode
 
             let body = {
                 ..._formFilm
             }
 
-
             dispatch(alertType(true))
             await movieService.updateMovieById(body)
                 .then(async res => {
-                    dispatch(alertType(false))
-                    ToastUtil.success("Cập nhật tập phim thành công");
+                    ToastUtil.success("Cập nhật phim thành công");
+                    if (Number(formTempFilm.totalEpisodes) !== Number(_formFilm.totalEpisodes)) {
+                        await onHandleUpdateEpisode(_formEpisode);
+                    }
                     await fetchMovieById();
                 })
                 .catch(error => {
                     dispatch(alertType(false))
-                    ToastUtil.errorApi(error, "Cập nhật tập phim thất bại");
+                    ToastUtil.errorApi(error, "Cập nhật phim thất bại");
                 });
         } else {
 
-            _formFilm.episodes = Array.from({ length: _formFilm.totalEpisodes }, (_, index) => ({
+            _formEpisode.episodes = Array.from({ length: _formFilm.totalEpisodes }, (_, index) => ({
                 episodeNumber: index + 1,
                 episodeLink: "",
                 episodeOrigin: "",
@@ -223,9 +245,14 @@ const AdminAddMovie = ({ isEdit }) => {
 
             dispatch(alertType(true))
             await movieService.createMovie(body)
-                .then(res => {
+                .then(async res => {
                     dispatch(alertType(false))
                     ToastUtil.success("Tạo phim thành công");
+                    const { id } = res
+                    if (id) {
+                        _formEpisode.movieId = id
+                        await createEpisodeByIdMovie(_formEpisode)
+                    }
                 })
                 .catch(error => {
                     dispatch(alertType(false))
@@ -537,6 +564,18 @@ const AdminAddMovie = ({ isEdit }) => {
                                     value={formFilm.views}
                                     onChange={handleChangeInput}
                                 />
+                            </div>
+                        </div>
+
+                        <div className="form-group-input">
+                            <div className="label">
+                                Có hot không
+                            </div>
+                            <div className="value">
+                                <select value={formFilm ? formFilm.hot : ''} onChange={changeHot} className="form-control-input">
+                                    <option value={true} selected={formFilm.hot == true}>true</option>
+                                    <option value={false} selected={formFilm.hot == false}>false</option>
+                                </select>
                             </div>
                         </div>
 

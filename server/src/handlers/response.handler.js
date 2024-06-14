@@ -2,7 +2,7 @@ const responseWithData = (res, statusCode, data) => {
   return res.status(statusCode).json(data);
 }
 
-const error = (res, msg, error) => {
+const error = (res, msg, error = {}) => {
   const { message } = error
   return responseWithData(res, 500, {
     status: 500,

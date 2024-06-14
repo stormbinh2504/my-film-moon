@@ -4,6 +4,9 @@ import "./Home.scss"
 import { AnimateCounterNumber } from '../../utils';
 import { useEffect } from 'react';
 import AOS from 'aos';
+import HomeListMovie from './HomeListMovie/HomeListMovie';
+import SiderbarMovie from '../SiderbarMovie/SiderbarMovie';
+import HomeHotMovie from './HomeHotMovie/HomeHotMovie';
 
 
 const Home = () => {
@@ -19,7 +22,19 @@ const Home = () => {
 
     return (
         <div className='home'>
-
+            <div className="container">
+                <HomeHotMovie />
+                <div className="home-content-main">
+                    <div className="row">
+                        <div className="col-12 col-md-9">
+                            <HomeListMovie />
+                        </div>
+                        <div className="col-12 col-md-3">
+                            <SiderbarMovie />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

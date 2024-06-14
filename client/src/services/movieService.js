@@ -7,6 +7,29 @@ const REACT_APP_BASE_URL_API = globalVar.api.REACT_APP_BASE_URL_API;
 
 const movieService = {
 
+
+    deleteEpisodeById(id) {
+        return axios.delete(`${REACT_APP_BASE_URL_API}movies/delete-episode/${id}`)
+    },
+
+    updateEpisodeById(body) {
+        const { id } = body
+        return axios.put(`${REACT_APP_BASE_URL_API}movies/update-episode/${id}`, body)
+    },
+
+    getEpisodeByMovieId(id) {
+        return axios.get(`${REACT_APP_BASE_URL_API}movies/get-episode-movieid/${id}`)
+    },
+
+    createEpisode(body) {
+        return axios.post(`${REACT_APP_BASE_URL_API}movies/add-episode`, body)
+    },
+
+    getEpisodes(body) {
+        return axios.get(`${REACT_APP_BASE_URL_API}movies/get-all-episodes`)
+    },
+
+
     deleteMovieById(id) {
         return axios.delete(`${REACT_APP_BASE_URL_API}movies/delete/${id}`)
     },
@@ -27,6 +50,12 @@ const movieService = {
     getMovies(body) {
         return axios.get(`${REACT_APP_BASE_URL_API}movies/get-movies`)
     },
+
+
+    getFilterMovies(body) {
+        return axios.post(`${REACT_APP_BASE_URL_API}movies/get-filter-movies`, body)
+    },
+
 
     getCountries() { //Lấy danh sách quốc gia
         return axios.get(`${REACT_APP_BASE_URL_API}movies/get-countries`)

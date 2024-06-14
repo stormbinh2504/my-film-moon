@@ -1,0 +1,17 @@
+/* StarRating.css */
+.star-rating {
+    display: flex;
+    cursor : pointer;
+
+    .star-rating-content {
+        display: flex;
+
+        .list-start {
+            .star {
+                width       : 20px;
+                height      : 20px;
+                margin-right: 5px;
+            }
+        }
+    }
+}

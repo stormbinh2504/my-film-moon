@@ -20,7 +20,7 @@ import { TYPE_USER } from './utils';
 import Footer from './containers/Footer/Footer';
 import { PATH_NAME } from './utils/constants';
 import { history } from './redux/store'
-import Contact from './containers/Contact/Contact';
+import Contact from './containers/InfoMovie/InfoMovie';
 import ToolPhoneZaloChat from './containers/Common/ToolPhoneZaloChat/ToolPhoneZaloChat';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import About from './containers/About/About';
@@ -35,6 +35,8 @@ import Page404 from './containers/Page404/Page404';
 import Admin from './containers/Admin/Admin';
 import NotFound from './containers/Page404/NotFound';
 import { initializeApp } from './redux/actions';
+import InfoMovie from './containers/InfoMovie/InfoMovie';
+import Movie from './containers/Movie/Movie';
 
 if (typeof window !== "undefined") {
   injectStyle();
@@ -79,7 +81,8 @@ function App() {
 
                     <Route exact path={PATH_NAME.LOGIN} component={Login} />
 
-                    <Route exact path={PATH_NAME.CONTACT} component={Contact} />
+                    <Route exact path={`${PATH_NAME.INFO_MOVIE}/:id`} component={InfoMovie} />
+                    <Route exact path={`${PATH_NAME.MOVIE}/:id/:episode`} component={Movie} />
                     <Route exact path={PATH_NAME.ABOUT_OUR} component={About} />
                     <Route exact path={PATH_NAME.GUARANTEE} component={Guarantee} />
                     <Route exact path={PATH_NAME.SECURITY} component={Security} />

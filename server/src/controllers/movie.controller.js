@@ -4,6 +4,7 @@ import countryModel from "../models/country.model.js"; // Import the country mod
 import genreModel from "../models/genre.model.js"; // Import the genre model
 import movieModel from "../models/movie.model.js";
 import categoryModel from "../models/category.model.js";
+import episodeModel from "../models/episode.model.js";
 
 export const createMovie = async (req, res) => {
     try {
@@ -24,13 +25,63 @@ export const getAllMovies = async (req, res) => {
     }
 };
 
+
+export const getMoviesFilter = async (req, res) => {
+    try {
+        const { page = 1, limit = 10, filters } = req.body;
+
+        // Build the filter object
+        let filter = {};
+        if (filters) {
+            if (filters.nameSearch) {
+                // Tìm kiếm không phân biệt chữ hoa chữ thường trong cả 'name' và 'nameEnglish'
+                filter.$or = [
+                    { name: { $regex: filters.nameSearch, $options: "i" } },
+                    { nameEnglish: { $regex: filters.nameSearch, $options: "i" } }
+                ];
+            }
+            if (filters.cast) {
+                filter.cast = { $regex: filters.cast, $options: "i" };
+            }
+            if (filters.year) {
+                filter.year = { $regex: filters.year, $options: "i" };
+            }
+        }
+
+        // Find movies with the filter and apply pagination
+        const movies = await movieModel.find(filter)
+            .skip((page - 1) * limit)
+            .limit(parseInt(limit));
+
+        // Get the total count of movies matching the filter
+        const total = await movieModel.countDocuments(filter);
+
+        responseHandler.ok(res, {
+            data: movies,
+            total,
+            totalPages: Math.ceil(total / limit),
+            currentPage: parseInt(page)
+        }, "Movies fetched successfully");
+    } catch (error) {
+        responseHandler.error(res, "Failed to fetch all movies", error);
+    }
+};
+
 // Get a single movie by ID
 export const getMovieById = async (req, res) => {
     try {
-        const movie = await movieModel.findById(req.params.id);
+        let movie = await movieModel.findById(req.params.id);
+
+        const episodeDocument = await episodeModel.findOne({ movieId: req.params.id });
+
         if (!movie) {
             return responseHandler.error(res, "Movie not found");
         }
+        if (episodeDocument) {
+            movie = movie.toObject(); // Chuyển đổi tài liệu Mongoose thành đối tượng đơn giản
+            movie.episodeId = episodeDocument._id;
+        }
+
         responseHandler.ok(res, movie, "Movie fetched successfully");
     } catch (error) {
         responseHandler.error(res, "Failed to fetch movie", error);

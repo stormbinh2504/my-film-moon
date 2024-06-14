@@ -25,7 +25,7 @@ const AdminAddEpisode = () => {
     const { isInitialized, listCountries, listGenres, listCategories } = app
     const [formFilm, setFormFilm] = useState({})
     const [numberMovie, setNumberMovie] = useState(1)
-    const [episodeData, setEpisodeData] = useState([])
+    const [formEpisode, setFormEpisode] = useState({})
     const { id } = useParams();
 
 
@@ -40,13 +40,30 @@ const AdminAddEpisode = () => {
 
     const fetchMovieById = async () => {
         movieService.getMovieById(id)
-            .then((data) => {
+            .then(async (data) => {
                 setFormFilm(data)
-                setEpisodeData(data.episodes)
+                const { id } = data
+                await fetchEpisodeById(id)
             })
             .catch((error) => {
                 ToastUtil.errorApi(error)
             });
+    }
+
+
+    const fetchEpisodeById = async (movieId) => {
+        const { id } = formFilm
+        let idBody = movieId || id
+        if (idBody) {
+            movieService.getEpisodeByMovieId(idBody)
+                .then((data) => {
+                    ToastUtil.success("Load tập phim thành công");
+                    setFormEpisode(data)
+                })
+                .catch((error) => {
+                    ToastUtil.errorApi(error)
+                });
+        }
     }
 
     const changeNumberMovie = e => {
@@ -57,27 +74,21 @@ const AdminAddEpisode = () => {
 
     const handleChangeInput = e => {
         const { name, value } = e.target
-        console.log("bh_handleChangeInput", numberMovie)
-        const newEpisodeData = [...episodeData];
+        const newEpisodeData = [...formEpisode.episodes];
         newEpisodeData[numberMovie - 1][name] = value;
-        setEpisodeData(newEpisodeData);
+        setFormEpisode({ ...formEpisode, episodes: newEpisodeData })
     }
 
 
     const onHandleUpdate = async () => {
-        // if (!validate()) {
-        //     return
-        // }
-
-        formFilm.episodes = episodeData
         let body = {
-            ...formFilm
+            ...formEpisode
         }
         dispatch(alertType(true))
-        await movieService.updateMovieById(body)
+        await movieService.updateEpisodeById(body)
             .then(async res => {
                 dispatch(alertType(false))
-                await fetchMovieById();
+                await fetchEpisodeById();
                 ToastUtil.success("Cập nhật tập phim thành công");
             })
             .catch(error => {
@@ -86,7 +97,7 @@ const AdminAddEpisode = () => {
             });
     }
 
-    console.log("bh_AdminAddEpisode", formFilm, episodeData, id, numberMovie)
+    console.log("bh_AdminAddEpisode", formFilm, id, numberMovie, formEpisode)
     return (
         <div div className='admin-add-episode' >
             <div className="admin-add-episode-container">
@@ -113,13 +124,13 @@ const AdminAddEpisode = () => {
                             </div>
                             <div className="value">
                                 <select value={numberMovie || 1} onChange={changeNumberMovie} className="form-control-input">
-                                    {episodeData && episodeData.map((item, key) => {
+                                    {formEpisode && formEpisode.episodes && formEpisode.episodes.map((item, key) => {
                                         return (<option key={key} value={item.episodeNumber} selected={numberMovie == item.episodeNumber}>Tập {item.episodeNumber}</option>)
                                     })}
                                 </select>
                             </div>
                         </div>
-                        {episodeData.length > 0 && episodeData.map((item, index) => {
+                        {formEpisode && formEpisode.episodes && formEpisode.episodes.map((item, index) => {
                             if (item.episodeNumber == numberMovie) {
                                 return <>
                                     <div className="form-group-input">

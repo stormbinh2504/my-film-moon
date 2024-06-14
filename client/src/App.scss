@@ -2,9 +2,12 @@
 
 body {
 
-  #root {
+
+  .App {
     background-color: #000000;
     color           : #ffffff;
+    min-height        : 100vh;
+    min-width           : 100vw;
   }
 
   a {
@@ -21,7 +24,9 @@ body {
   }
 }
 
-.main {}
+.main {
+  background-color: #000000;
+}
 
 ul,
 ol {

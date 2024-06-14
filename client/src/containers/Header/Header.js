@@ -5,7 +5,7 @@ import { setMenuActive } from '../../redux/actions'
 import * as actions from '../../redux/actions'
 import { LINK_CATALOGUE, PATH_NAME, openInNewTab, setPathName } from '../../utils';
 import "./Header.scss"
-import logoFull from "../../assets/images/company/logo_full.png"
+import logo from "../../assets/imgs/company/logo.png"
 import MenuSidebar from '../MenuSidebar/MenuSidebar';
 
 // let phone = 
@@ -59,62 +59,14 @@ const Header = () => {
             {isOpenMenu && <MenuSidebar
                 setIsOpenMenu={setIsOpenMenu}
             />}
-            <div id="container-header" className="container container-header">
-                <div className="row w-100">
-                    <div className="col-12 col-ms-6 col-lg-2 navbar-logo item-center">
-                        <div className='div-img-logo' onClick={onRedirectHome}>
-                            <img className="img-logo" src={logoFull} />
-                        </div>
-                        <div className="header-icon-bars" onClick={() => { setIsOpenMenu(!isOpenMenu) }}>
-                            <i className="fa fa-bars" aria-hidden="true"></i>
-                        </div>
+            <div id="container-header" className="container-header">
+                <div className="container">
+                    <div className='div-img-logo' onClick={onRedirectHome}>
+                        <img className="img-logo" src={logo} />
                     </div>
-                    <div className="header-extras col-12 col-ms-6 col-lg-10 ">
-                        <div className="row w-100 gutters-0 h-100">
-                            <div className="extra-item col-4" data-id="5fcb72ee" data-element_type="column">
-                                <div className="extra-wrap">
-                                    <div className="extra-item-icon item-center">
-                                        <a href="tel:0833 855 955"><i className="fa fa-phone" aria-hidden="true"></i></a>
-                                    </div>
-                                    <div className="extra-item-content">
-                                        Hotline
-                                        <div className="info-content">
-                                            <a href="tel:0833 855 955">0833 855 955</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="extra-item col-4 " data-id="5fcb72ee" data-element_type="column">
-                                <div className="extra-wrap extra-email">
-                                    <div className="extra-item-icon item-center">
-                                        <i className="fa fa-envelope-o" aria-hidden="true"></i>
-                                    </div>
-                                    <div className="extra-item-content">
-                                        EMAIL
-                                        <div className="info-content">
-                                            cokhithvietnam@gmail.com
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="extra-item col-4 " data-id="5fcb72ee" data-element_type="column">
-                                <div className="extra-wrap extra-time">
-                                    <div className="extra-item-icon item-center">
-                                        <i className="fa fa-clock-o" aria-hidden="true"></i>
-                                    </div>
-                                    <div className="extra-item-content">
-                                        THỜI GIAN LÀM VIỆC
-                                        <div className="info-content">
-                                            Thứ 2 - Thứ 7, 8h - 17h
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div className='div-input-search item-center' onClick={onRedirectHome}>
+                        <input type="text" name="search" placeholder="Tìm kiếm phim..." value="" />
                     </div>
-
                 </div>
             </div>
 
@@ -122,6 +74,9 @@ const Header = () => {
                 <div id="primary-menu" className="menu style-2 center">
                     <div className="container clearfix">
                         <ul className="nav-menu" >
+                            <li className={"nav-menu-item " + (checkActiveMenu(PATH_NAME.HOME) ? "active" : "")}>
+                                <a onClick={() => onRedirectByPathname(PATH_NAME.HOME)}>Trang chủ</a>
+                            </li>
                             <li className={"nav-menu-item " + (checkActiveMenu(PATH_NAME.LIST_NEW_FILM) ? "active" : "")}>
                                 <a onClick={() => onRedirectByPathname(PATH_NAME.LIST_NEW_FILM)}>Phim mới</a>
                             </li>

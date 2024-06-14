@@ -1,5 +1,5 @@
 import { GLOBALTYPES } from '../actions/globalTypes'
-import { PATH_NAME } from './../../utils';
+import { PATH_NAME, FILTER_MOVIES } from './../../utils';
 
 const initialState = {
     isInitialized: false,
@@ -7,6 +7,9 @@ const initialState = {
     listCategories: [],
     listCountries: [],
     listGenres: [],
+    filterMovies: {
+        ...FILTER_MOVIES
+    },
 }
 
 const authReducer = (state = initialState, action) => {
@@ -35,6 +38,19 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 listGenres: action.data
+            };
+        case "UPDATE_DATA_FILTER_MOVIES":
+            return {
+                ...state,
+                filterMovies: {
+                    ...state.filterMovies,
+                    ...action.data
+                }
+            };
+        case "CLEAR_DATA_FILTER_MOVIES":
+            return {
+                ...state,
+                filterMovies: FILTER_MOVIES
             };
         default:
             return state;

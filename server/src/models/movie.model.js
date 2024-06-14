@@ -17,23 +17,6 @@ const movieSchema = new mongoose.Schema({
     required: true,
     description: "Tổng số tập của bộ phim"
   },
-  episodes: [{
-    episodeNumber: {
-      type: Number,
-      required: true,
-      description: "Số thứ tự của tập phim"
-    },
-    episodeLink: {
-      type: String,
-      required: true,
-      description: "Đường dẫn đến tập phim"
-    },
-    episodeOrigin: {
-      type: String,
-      required: true,
-      description: "Nguồn phim"
-    },
-  }],
   duration: {
     type: Number,
     required: true,

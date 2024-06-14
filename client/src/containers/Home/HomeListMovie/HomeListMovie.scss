@@ -1,0 +1,16 @@
+@import "../../../styles/common";
+
+.home-list-movie {
+    .wrap-movie-item {
+        margin-bottom: 20px;
+    }
+}
+
+
+
+
+
+// từ 991px trở xuống
+@include media-breakpoint-down(md) {
+    .home {}
+}
